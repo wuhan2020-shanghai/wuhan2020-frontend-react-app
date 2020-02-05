@@ -3,14 +3,16 @@ import { routerReducer } from 'react-router-redux'
 import AppReducer from './App';
 import ClinicReducer from './Clinic';
 import DonateReducer from './Donate';
-import freeConsultationReducer from './freeConsultation';
+import LogisticReducer from './Logistics';
+import freeConsultationReducer from './FreeConsultations';
 
 export const allReducers = combineReducers({
   app: AppReducer,
   clinic: ClinicReducer,
-  donate: DonateReducer,
   routing: routerReducer,
-  freeConsultation: freeConsultationReducer
+  freeConsultation: freeConsultationReducer,
+  donate: DonateReducer,
+  logistics: LogisticReducer,
 });
 
-export type IApplicationState = ReturnType<typeof allReducers>
+export type IApplicationState = ReturnType<typeof allReducers>;
