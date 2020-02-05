@@ -6,12 +6,15 @@ import { bindActionCreators } from "redux";
 import { IApplicationState } from "../../../store";
 import { withRouter, RouteComponentProps } from "react-router";
 import { Row, Col, Input, Layout, Pagination } from "antd";
-import { freeConsulationState } from "../../../store/FreeConsultations";
 import { IntlShape, injectIntl } from "react-intl";
 import {
   actionCreators as freeConsulationActionCreators,
   Actions as freeConsulationActions
 } from "../../../store/FreeConsultations/actions";
+import {
+	searchConsultationSelector,
+	freeConsulationState
+  } from "../../../store/FreeConsultations";
 import { AppState } from "../../../store/App";
 import { IFreeConsultation } from "../../../types/interfaces";
 import FreeConsultationCard from "../../../components/Elements/FreeConsultation/Card";
@@ -74,6 +77,10 @@ class FreeConsultationList extends React.PureComponent<Props, {}> {
 		this.setState({freeConsultationList: freeConsultationList.slice((pageSize * (current - 1)), pageSize * current  > total ? total : pageSize * current)})
 	}
 
+	onConsultationSearch = (searchText) => {
+		this.props.actions.searchConsultation(searchText);
+	};
+
 	render()
 	{
 		const {current, total, pageSize} = this.state;
@@ -88,7 +95,7 @@ class FreeConsultationList extends React.PureComponent<Props, {}> {
 								<Col lg={8} sm={24} xs={24}>
 									<Search
 										placeholder={this.props.intl.formatMessage({ id: 'SEARCH_CONSULTATION' })}
-										onSearch={value => console.log(value)}
+										onSearch={this.onConsultationSearch}
 									/>
 								</Col>
 							</Row>
@@ -117,10 +124,12 @@ class FreeConsultationList extends React.PureComponent<Props, {}> {
 }
 
 const mapStateToProps = (state: IApplicationState) => {
+	const consultationSearchSelector =  searchConsultationSelector();
   return {
     app: state.app,
     loading: state.app.loading,
-    freeConsultationList: state.freeConsultation.list
+	//freeConsultationList: state.freeConsultation.list
+	freeConsultationList: consultationSearchSelector(state)
   };
 };
 

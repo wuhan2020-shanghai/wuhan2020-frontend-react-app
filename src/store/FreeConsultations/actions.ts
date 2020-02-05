@@ -9,12 +9,16 @@ const SUFFIX = '__CLINICS';
 @typeName('RESET' + SUFFIX)
 export class ResetAction extends StrongAction { constructor() { super(); }}
 
+@typeName('SEARCH_CONSULTATION' + SUFFIX)
+export class SearchConsultationAction extends StrongAction { constructor(public searchText: string) { super(); }}
+
 @typeName('UPDATE_FREE_CONSULTATION' + SUFFIX)
 export class UpdateFreeConsultationActions extends StrongAction { constructor(public list: IFreeConsultation[]) {super(); }}
 
 export interface Actions
 {
   fetchFreeConsultationList(list: any[]);
+  searchConsultation(searchText: string);
 }
 
 
@@ -45,5 +49,6 @@ export const actionCreators = {
     {
       dispatch(appActionCreators.toggleAppLoading(false));
     }
-  }
+  },
+  searchConsultation: (searchText: string): any => dispatch => dispatch(new SearchConsultationAction(searchText)),
 };
